@@ -42,7 +42,10 @@ public class Player : MonoBehaviour
         {
             animator.SetTrigger("Jump");
         }
-
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            animator.SetTrigger("Attack");
+        }
         if (Input.GetKey(KeyCode.LeftShift))
         {
             isRunning = true;
@@ -64,10 +67,6 @@ public class Player : MonoBehaviour
 
         float rotateSpeed = 10f;
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
-
-        // Update animator parameters
-        animator.SetBool("IsWalking", isWalking);
-        animator.SetBool("IsRunning", isRunning);
     }
 
     public bool IsWalking()
