@@ -13,8 +13,11 @@ public class Player : MonoBehaviour
 
     private Animator animator;
 
+    public Cinemachine.CinemachineVirtualCamera virtualCamera;
+
     private void Awake()
     {
+        virtualCamera = FindObjectOfType<Cinemachine.CinemachineVirtualCamera>();
         animator = GetComponent<Animator>();
     }
 
@@ -57,16 +60,22 @@ public class Player : MonoBehaviour
             moveSpeed = defaultMoveSpeed; // Reset to default walking speed
         }
 
+        // Get the camera's forward direction, without the vertical component
+        Vector3 cameraForward = virtualCamera.transform.forward;
+        cameraForward.y = 0f;
+        cameraForward.Normalize();
+
         // Normalize input vector
         inputVector = inputVector.normalized;
 
-        Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
+        Vector3 moveDir = Quaternion.LookRotation(cameraForward) * new Vector3(inputVector.x, 0f, inputVector.y);
         transform.position += moveDir * moveSpeed * Time.deltaTime;
 
         isWalking = moveDir != Vector3.zero;
 
         float rotateSpeed = 10f;
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+
     }
 
     public bool IsWalking()
