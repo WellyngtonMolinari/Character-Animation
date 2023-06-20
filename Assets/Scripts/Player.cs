@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
-    [SerializeField] private float moveSpeed = 7f;
-    private float runningSpeed = 10f;
+    [SerializeField] private float defaultMoveSpeed;
+    [SerializeField] private float runningSpeed;
+    private float moveSpeed;
     private bool isWalking;
     private bool isRunning;
 
@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
         else
         {
             isRunning = false;
-            moveSpeed = 7f; // Reset to default walking speed
+            moveSpeed = defaultMoveSpeed; // Reset to default walking speed
         }
 
         // Normalize input vector
